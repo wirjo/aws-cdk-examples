@@ -5,7 +5,6 @@ import {
   CfnGraphQLSchema,
   CfnDataSource,
   CfnResolver,
-  Definition
 } from "aws-cdk-lib/aws-appsync";
 import { Construct } from "constructs";
 import { readFileSync } from "fs";
