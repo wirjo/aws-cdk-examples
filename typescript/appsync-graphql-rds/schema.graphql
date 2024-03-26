@@ -1,0 +1,52 @@
+type Conversations {
+  id: Int!
+  created_at: String
+  name: String!
+}
+
+type Messages {
+  conversation_id: Int!
+  created_at: String
+  body: String!
+  id: String!
+  sub: String!
+}
+
+type Conversation_participants {
+  conversation_id: Int!
+  last_read_at: String
+  sub: String!
+}
+
+type Query {
+  getConversations(id: Int!): Conversations
+  listConversations(filter: TableConversationsFilterInput, limit: Int, orderBy: [OrderByConversationsInput], nextToken: String): ConversationsConnection
+  getMessages(id: String!): Messages
+  listMessages(filter: TableMessagesFilterInput, limit: Int, orderBy: [OrderByMessagesInput], nextToken: String): MessagesConnection
+  getConversation_participants(conversation_id: Int!, sub: String!): Conversation_participants
+  listConversation_participants(filter: TableConversation_participantsFilterInput, limit: Int, orderBy: [OrderByConversation_participantsInput], nextToken: String): Conversation_participantsConnection
+}
+
+type Mutation {
+  createConversations(input: CreateConversationsInput!): Conversations
+  updateConversations(input: UpdateConversationsInput!, condition: TableConversationsConditionInput): Conversations
+  deleteConversations(input: DeleteConversationsInput!, condition: TableConversationsConditionInput): Conversations
+  createMessages(input: CreateMessagesInput!): Messages
+  updateMessages(input: UpdateMessagesInput!, condition: TableMessagesConditionInput): Messages
+  deleteMessages(input: DeleteMessagesInput!, condition: TableMessagesConditionInput): Messages
+  createConversation_participants(input: CreateConversation_participantsInput!): Conversation_participants
+  updateConversation_participants(input: UpdateConversation_participantsInput!, condition: TableConversation_participantsConditionInput): Conversation_participants
+  deleteConversation_participants(input: DeleteConversation_participantsInput!, condition: TableConversation_participantsConditionInput): Conversation_participants
+}
+
+type Subscription {
+  onCreateConversations(id: Int, created_at: String, name: String): Conversations @aws_subscribe(mutations: ["createConversations"])
+  onUpdateConversations(id: Int, created_at: String, name: String): Conversations @aws_subscribe(mutations: ["updateConversations"])
+  onDeleteConversations(id: Int, created_at: String, name: String): Conversations @aws_subscribe(mutations: ["deleteConversations"])
+  onCreateMessages(conversation_id: Int, created_at: String, body: String, id: String, sub: String): Messages @aws_subscribe(mutations: ["createMessages"])
+  onUpdateMessages(conversation_id: Int, created_at: String, body: String, id: String, sub: String): Messages @aws_subscribe(mutations: ["updateMessages"])
+  onDeleteMessages(conversation_id: Int, created_at: String, body: String, id: String, sub: String): Messages @aws_subscribe(mutations: ["deleteMessages"])
+  onCreateConversation_participants(conversation_id: Int, last_read_at: String, sub: String): Conversation_participants @aws_subscribe(mutations: ["createConversation_participants"])
+  onUpdateConversation_participants(conversation_id: Int, last_read_at: String, sub: String): Conversation_participants @aws_subscribe(mutations: ["updateConversation_participants"])
+  onDeleteConversation_participants(conversation_id: Int, last_read_at: String, sub: String): Conversation_participants @aws_subscribe(mutations: ["deleteConversation_participants"])
+}
