@@ -10,6 +10,7 @@ import {
 import { Construct } from "constructs";
 import { readFileSync } from "fs";
 
+const definition = readFileSync("./definition.graphql", "utf-8");
 const getOneCode = readFileSync("./resolvers/getOne.js", "utf-8");
 const getAllCode = readFileSync("./resolvers/getAll.js", "utf-8");
 const saveCode = readFileSync("./resolvers/save.js", "utf-8");
@@ -30,7 +31,7 @@ export class AppSyncCdkStack extends cdk.Stack {
 
     const apiSchema = new CfnGraphQLSchema(this, "PostsSchema", {
       apiId: postsGraphQLApi.attrApiId,
-      definition: Definition.fromFile('schema.graphql'),
+      definition,
     });
 
     const dataSource = new CfnDataSource(this, "PostsDataSource", {
